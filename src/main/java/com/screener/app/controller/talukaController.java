@@ -129,6 +129,7 @@ public class talukaController {
 					List<taluka_psw> list = ts.getAllTalukaPswsTalukaSupervisors();
 					return new ResponseEntity<List<taluka_psw>>(list, HttpStatus.OK);
 				}
+				
 		
 
 }

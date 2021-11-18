@@ -350,7 +350,25 @@ import org.springframework.web.bind.annotation.RestController;
 		
 		
 		
-		
+				//dashboard view - completed tasks
+				@GetMapping("/getallTasks/{patient_uuid}")
+				public ResponseEntity<List<task_master>> getallTasks(@PathVariable(value ="patient_uuid") String patient_uuid) {
+					
+					List<task_master> task_master = ps.getallTasks(patient_uuid);
+					
+					return new ResponseEntity<List<task_master>>(task_master, HttpStatus.OK);
+					
+				}
+				
+				//dashboard view - completed tasks
+				@GetMapping("/getPatientUdid/{patient_uuid}")
+				public ResponseEntity<List<udid_info>> getPatientUdid(@PathVariable(value ="patient_uuid") String patient_uuid) {
+					
+					List<udid_info> udid_info = ps.getPatientUdid(patient_uuid);
+					
+					return new ResponseEntity<List<udid_info>>(udid_info, HttpStatus.OK);
+					
+				}
 		
 		
 		

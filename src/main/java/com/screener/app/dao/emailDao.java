@@ -49,7 +49,8 @@ public class emailDao {
 		 //String d_port = "587";
 		 
 		 //GMAIL SMTP
-		 String d_email = "neuropathology2008@gmail.com";
+		// String d_email = "neuropathology2008@gmail.com";
+		 String d_email = "kshemanimhans@gmail.com";
 		 String d_host = "smtp.gmail.com";
 		 String d_port = "465";
 		   
@@ -94,9 +95,11 @@ public class emailDao {
 //		  String d_email = "nimhansneuropathology@gmail.com";
 //		  String d_password = "neuropath029";
 		
-			 String d_email = "neuropathology2008@gmail.com";
+			 //String d_email = "neuropathology2008@gmail.com";
+			 String d_email = "kshemanimhans@gmail.com";
 				
-			  String d_password = "2008neuropat";
+			  //String d_password = "2008neuropat";
+			  String d_password = "Kshema@123";
 		  return new PasswordAuthentication(d_email, d_password);
 		 }
 		}

@@ -59,9 +59,13 @@ public interface IpatientDao {
 	void getOverduetasks();
 	void getCompletedVisits();
 	void getCompletedTasks();
+	List<task_master> getallTasks(String patient_uuid);
+	
+	
 	List<patient_total_obj> getConsultationHistory(String patient_uuid);
 	
 	psw_supervisor_obj getmetaDataLogin(int users_id,String role);
 	supervisor_obj getmetaDataLogin1(int users_id, String role);
+	List<udid_info> getPatientUdid(String patient_uuid);
 	
 } 

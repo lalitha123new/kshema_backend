@@ -285,6 +285,20 @@ public class patientService implements IpatientService {
 		patientDao.getCompletedTasks();
 		return null;
 	}
+	
+	@Override
+	public List<task_master> getallTasks(String patient_uuid) {
+		// TODO Auto-generated method stub
+		return patientDao.getallTasks(patient_uuid);
+		
+	}
+	@Override
+	public List<udid_info> getPatientUdid(String patient_uuid) {
+		// TODO Auto-generated method stub
+		return patientDao.getPatientUdid(patient_uuid);
+		
+	}
+	
 
 	@Override
 	public List<patient_total_obj> getConsultationHistory(String patient_uuid) {

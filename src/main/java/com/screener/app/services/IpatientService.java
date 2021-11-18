@@ -88,6 +88,10 @@ public interface IpatientService {
 		List<task_master> getCompletedVisits();
 
 		List<task_master> getCompletedTasks();
+		List<task_master> getallTasks(String patient_uuid);
+		List<udid_info> getPatientUdid(String patient_uuid);
+		
+		
 
 		List<patient_total_obj> getConsultationHistory(String patient_uuid);
 

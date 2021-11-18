@@ -14,7 +14,8 @@ public interface inotificationDao {
 	List<notes> getNotificationlist(int supervisor_id);
 	List<notes> getUnreadnotificationlist(int supervisor_id);
 	int updateReadNotification1(String notes_uuid);
-	
+	public int toUpdateImageUrl(String str, int checkImgSrc);
+	String getImage(String notes_uuid);
 	
 	//not done
 	

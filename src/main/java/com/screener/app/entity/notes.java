@@ -22,7 +22,14 @@ public class notes {
 	private String patient_uuid; 
 	private int sender_user_id;
 	private int recipient_user_id;
+	private String images; 
 	
+	public String getImages() {
+		return images;
+	}
+	public void setImages(String images) {
+		this.images = images;
+	}
 	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private String createdAt;
 

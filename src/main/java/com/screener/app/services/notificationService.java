@@ -46,6 +46,13 @@ public class notificationService implements inotificationService {
 		
 		return notificationDao.getallnotificationfromsvr(psw_id);
 	}
+	//getImage
+	@Override
+	public String getImage(String notes_uuid) {
+		
+		
+		return notificationDao.getImage(notes_uuid);
+	}
 	
 	
 	
@@ -115,7 +122,13 @@ public class notificationService implements inotificationService {
 	
 	
 	
-	
+		@Override
+		public int updateImageUrl(String ImgeUrl,int checkImgSrc) {
+			// TODO Auto-generated method stub
+			
+			return notificationDao.toUpdateImageUrl(ImgeUrl,checkImgSrc);
+			
+		}
 } 
 
 

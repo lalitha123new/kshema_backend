@@ -25,9 +25,16 @@ public class patientObj {
 	private String status;
 	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private String createdAt;
+	private String images;
 	
 	
 	
+	public String getImages() {
+		return images;
+	}
+	public void setImages(String images) {
+		this.images = images;
+	}
 	public String getPatient_uuid() {
 		return patient_uuid;
 	}

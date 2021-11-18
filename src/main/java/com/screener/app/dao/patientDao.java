@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -643,10 +644,11 @@ public class patientDao implements IpatientDao {
 			// TODO Auto-generated method stub
 			
 		
-		String hql="UPDATE patientObj SET name=:name,demographic_info=:demographic_info,status=:status WHERE patient_uuid=:patient_uuid";
+		String hql="UPDATE patientObj SET name=:name,demographic_info=:demographic_info,needs_assessment=:needs_assessment,status=:status WHERE patient_uuid=:patient_uuid";
 			 Query query = entityManager.createQuery(hql);
 			 query.setParameter("name", pat.getName());
 			 query.setParameter("demographic_info", pat.getDemographic_info());
+			 query.setParameter("needs_assessment", pat.getNeeds_assessment());
 			 query.setParameter("status", pat.getStatus());
 			 query.setParameter("patient_uuid", pat.getPatient_uuid());
 			 int result = query.executeUpdate();
@@ -741,10 +743,16 @@ public class patientDao implements IpatientDao {
 //			DateFormat dateFormat = new SimpleDateFormat(dateFormatString);
 //			String currentDate = dateFormat.format(date);
 			//String currentDate = dateFormat.format(date);
-				Date currentDate = new Date();
+				//Date currentDate = new Date();
 			
-			
+				 Calendar cal = Calendar.getInstance();
+				 cal.set(Calendar.HOUR_OF_DAY, 0);
+				 cal.set(Calendar.MINUTE, 0);
+				 cal.set(Calendar.SECOND, 0);
+				 Date currentDate = cal.getTime();
 			System.out.println("DATE TIME IS"+currentDate);
+			
+
 		    
 			//String hql3 = "FROM patientObj WHERE group_data_id=:group_id";
 		    String hql3 = "FROM patientObj";
@@ -780,7 +788,13 @@ public class patientDao implements IpatientDao {
 //				String dateFormatString = "yyyy-MM-dd hh:mm:ss"; //23-03-2021
 //				DateFormat dateFormat = new SimpleDateFormat(dateFormatString);
 //				String currentDate = dateFormat.format(date);
-				Date currentDate = new Date();
+				//Date currentDate = new Date();
+				Calendar cal = Calendar.getInstance();
+				 cal.set(Calendar.HOUR_OF_DAY, 0);
+				 cal.set(Calendar.MINUTE, 0);
+				 cal.set(Calendar.SECOND, 0);
+				 Date currentDate = cal.getTime();
+			System.out.println("DATE TIME IS"+currentDate);
 		
 			   // String hql3 = "FROM patientObj WHERE group_data_id=:group_id";
 			    String hql3 = "FROM patientObj";
@@ -815,7 +829,13 @@ public class patientDao implements IpatientDao {
 //				String dateFormatString = "yyyy-MM-dd hh:mm:ss:sss"; //23-03-2021
 //				DateFormat dateFormat = new SimpleDateFormat(dateFormatString);
 //				String currentDate = dateFormat.format(date);
-				Date currentDate = new Date();
+				//Date currentDate = new Date();
+				Calendar cal = Calendar.getInstance();
+				 cal.set(Calendar.HOUR_OF_DAY, 0);
+				 cal.set(Calendar.MINUTE, 0);
+				 cal.set(Calendar.SECOND, 0);
+				 Date currentDate = cal.getTime();
+				 System.out.println("DATE TIME IS"+currentDate);
 				
                   //String hql3 = "FROM patientObj WHERE group_data_id=:group_id";
                   String hql3 = "FROM patientObj";
@@ -860,7 +880,13 @@ public class patientDao implements IpatientDao {
 //			DateFormat dateFormat = new SimpleDateFormat(dateFormatString);
 //			String currentDate = dateFormat.format(date);
 //		    System.out.println("Current date:--- "+currentDate);
-        	   Date currentDate = new Date();
+        	  // Date currentDate = new Date();
+        	   Calendar cal = Calendar.getInstance();
+				 cal.set(Calendar.HOUR_OF_DAY, 0);
+				 cal.set(Calendar.MINUTE, 0);
+				 cal.set(Calendar.SECOND, 0);
+				 Date currentDate = cal.getTime();
+				 System.out.println("DATE TIME IS"+currentDate);
 			
 			
 			String hql = "FROM tasks WHERE task_due_date =:task_due_date order by tasks_id DESC";
@@ -883,7 +909,13 @@ public class patientDao implements IpatientDao {
 //   			DateFormat dateFormat = new SimpleDateFormat(dateFormatString);
 //   			String currentDate = dateFormat.format(date);
    		    //System.out.println("Current date:--- "+currentDate);
-   		 Date currentDate = new Date();
+   		 //Date currentDate = new Date();
+        	   Calendar cal = Calendar.getInstance();
+				 cal.set(Calendar.HOUR_OF_DAY, 0);
+				 cal.set(Calendar.MINUTE, 0);
+				 cal.set(Calendar.SECOND, 0);
+				 Date currentDate = cal.getTime();
+				 System.out.println("DATE TIME IS"+currentDate);
    			
    			
    			//String hql = "FROM tasks WHERE task_due_date >:task_due_date order by tasks_id DESC";
@@ -913,7 +945,13 @@ public class patientDao implements IpatientDao {
 //      			DateFormat dateFormat = new SimpleDateFormat(dateFormatString);
 //      			String currentDate = dateFormat.format(date);
 //      		    System.out.println("Current date:--- "+currentDate);
-        	   Date currentDate = new Date();
+        	  // Date currentDate = new Date();
+        	   Calendar cal = Calendar.getInstance();
+				 cal.set(Calendar.HOUR_OF_DAY, 0);
+				 cal.set(Calendar.MINUTE, 0);
+				 cal.set(Calendar.SECOND, 0);
+				 Date currentDate = cal.getTime();
+				 System.out.println("DATE TIME IS"+currentDate);
       			
       			
       			//String hql = "FROM tasks WHERE task_due_date <:task_due_date order by tasks_id DESC";
@@ -943,7 +981,13 @@ public class patientDao implements IpatientDao {
 //      			DateFormat dateFormat = new SimpleDateFormat(dateFormatString);
 //      			String currentDate = dateFormat.format(date);
 //      		    System.out.println("Current date:--- "+currentDate);
-        	   Date currentDate = new Date();
+        	  // Date currentDate = new Date();
+        	   Calendar cal = Calendar.getInstance();
+				 cal.set(Calendar.HOUR_OF_DAY, 0);
+				 cal.set(Calendar.MINUTE, 0);
+				 cal.set(Calendar.SECOND, 0);
+				 Date currentDate = cal.getTime();
+				 System.out.println("DATE TIME IS"+currentDate);
       			
       			
       			//String hql = "FROM tasks WHERE task_due_date <:task_due_date order by tasks_id DESC";
@@ -1033,10 +1077,15 @@ public class patientDao implements IpatientDao {
 			String hql = "FROM clinical_visits WHERE patient_uuid=:patient_uuid";
 			System.out.println("query    "+hql);
 			List<clinical_visits> clinical_visits =(List<clinical_visits>) entityManager.createQuery(hql).setParameter("patient_uuid",patient_uuid).getResultList();
+			String hql2 = "FROM tasks WHERE patient_uuid=:patient_uuid AND task_type = 45";
+			
 			for( clinical_visits cv:clinical_visits) {
 				String hql1 = "FROM patientObj as p WHERE patient_uuid=:patient_uuid";
 				List<patientObj> temp = entityManager.createQuery(hql1).setParameter("patient_uuid",cv.getPatient_uuid()).getResultList();
-				patient_total_obj pat_tol=new patient_total_obj(cv,temp.get(0));
+				System.out.println("query    "+hql);
+				List<tasks> tasks =(List<tasks>) entityManager.createQuery(hql2).setParameter("patient_uuid",patient_uuid).getResultList();
+				
+				patient_total_obj pat_tol=new patient_total_obj(cv,temp.get(0),tasks.get(0));
 				returntotalObj.add(pat_tol);
 			}
 			
@@ -1070,7 +1119,7 @@ public class patientDao implements IpatientDao {
 							 lg2 = results2.get(0);
 					 
 			}else {
-				lg3=null;
+				//lg3=null;
 			String hql1 = "FROM social_worker as usr WHERE usr.users_id = ?1";
 			List<social_worker> results1 = entityManager.createQuery(hql1).setParameter(1, users_id).getResultList();
 			 lg1 = results1.get(0);
@@ -1078,6 +1127,11 @@ public class patientDao implements IpatientDao {
 				String hql2 = "FROM group_data as usr WHERE usr.social_worker_id = ?1";
 				List<group_data> results2 = entityManager.createQuery(hql2).setParameter(1, lg1.getSocial_worker_id()).getResultList();
 				 lg2 = results2.get(0);
+				 System.out.println(lg2.getSupervisor_id());
+				 
+				 String hql3 = "FROM supervisor as usr WHERE usr.supervisor_id = ?1";
+					List<supervisor> results3 = entityManager.createQuery(hql3).setParameter(1,lg2.getSupervisor_id()).getResultList();
+					 lg3 = results3.get(0);
 			}
 		
 			
@@ -1141,6 +1195,28 @@ public class patientDao implements IpatientDao {
 			
 			
 			return objpsw;
+		}
+		
+		@Override
+		public List<task_master> getallTasks(String patient_uuid) {
+		System.out.println("CHECKING"+patient_uuid);
+		List<task_master> taskobj=  new ArrayList<task_master>();
+			 String hql1 = "FROM tasks as tsk WHERE tsk.patient_uuid = ?1";
+			 List<task_master> taskobj1 =entityManager.createQuery(hql1).setParameter(1, patient_uuid).getResultList();
+			 taskobj.addAll(taskobj1);
+			 return taskobj;
+			
+		}
+		
+		@Override
+		public List<udid_info> getPatientUdid(String patient_uuid) {
+		
+		List<udid_info> udidobj=  new ArrayList<udid_info>();
+			 String hql1 = "FROM udid_info as udid WHERE udid.patient_uuid = ?1 and udid_info_id IN ( SELECT MAX(udid_info_id) FROM udid_info GROUP BY patient_uuid )";
+			 List<udid_info> udidobj1 =entityManager.createQuery(hql1).setParameter(1, patient_uuid).getResultList();
+			 udidobj.addAll(udidobj1);
+			 return udidobj1;
+			
 		}
 		
 		

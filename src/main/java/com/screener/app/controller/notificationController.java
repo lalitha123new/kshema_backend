@@ -104,7 +104,16 @@ import org.springframework.web.bind.annotation.RestController;
 			return notes1;
 		}
 		
-		
+		@GetMapping("/getImage/{notes_uuid}")
+  		public String getImage(@PathVariable(value = "notes_uuid") String notes_uuid) {
+  			
+  			System.out.println("hello");
+  			String file1 = ns.getImage(notes_uuid);
+  			
+
+  	       
+			return file1;
+  		}
 		
 		
 		

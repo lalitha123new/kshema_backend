@@ -31,7 +31,7 @@ public class FileStorageService {
     ServletContext context;
     
     @Autowired
-	private IpatientService ipatientService;
+	private inotificationService inotificationService;
     
 
     @Autowired
@@ -49,7 +49,7 @@ public class FileStorageService {
 		 */
     }
 
-    public String storeFile(MultipartFile[] file1,int checkImgSrc) {
+    public String storeFile(MultipartFile[] file1,String notes_uuid,int checkImgSrc) {
     	
     	
     	 try {
@@ -62,11 +62,14 @@ public class FileStorageService {
           String extension = file1[j].getOriginalFilename().substring(file1[j].getOriginalFilename().lastIndexOf("."));
           DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		  Date date = new Date();
-	      String fileName = j+dateFormat.format(date)+extension;
+	     // String fileName = j+dateFormat.format(date)+extension;
+		  String fileName = notes_uuid+extension;
 	      
 	      
 	      String absolutePath = context.getRealPath("/uploads/");
+		  //String absolutePath = "C://Users/EHRC/Desktop/UPLOADS/";
 	      Path p3 = Paths.get(absolutePath).resolve(fileName);
+	     
 	      System.out.println("absolutePath--"+absolutePath);
 
        
@@ -81,12 +84,13 @@ public class FileStorageService {
             
             
             org_fileName+="/uploads/"+fileName+",";
-           
+            org_fileName+=absolutePath+fileName;
+           //
     		 }
     	
     	System.out.println("orgName--"+org_fileName);
     	   //updateImageURL
-            ipatientService.updateImageUrl(org_fileName,checkImgSrc);
+    	inotificationService.updateImageUrl(org_fileName,checkImgSrc);
             
 
             return org_fileName;
@@ -111,4 +115,5 @@ public class FileStorageService {
             throw new MyFileNotFoundException("File not found " + fileName, ex);
         }
     }
+    
 }

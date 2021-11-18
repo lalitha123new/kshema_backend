@@ -194,9 +194,68 @@ public class notificationDao implements inotificationDao {
 			return count;
 
 		}
-
 		
-	
+		@Override
+		public int toUpdateImageUrl(String img_url,int checkImgSrc) {
+			// TODO Auto-generated method stub
+			System.out.println("CHECKING FILE UPLOAD"+checkImgSrc);
+			if(checkImgSrc == 1) {
+				System.out.println("notification image url  "+checkImgSrc);
+			String hql1 = "Select max(p.notes_id) FROM notes p ";
+			int notes_id = (int) entityManager.createQuery(hql1).getSingleResult();
+			
+			
+				   String hql = "UPDATE notes set images = :img_url "  + 
+				               "WHERE notes_id = :notes_id";
+				   Query query = entityManager.createQuery(hql);
+				   query.setParameter("img_url", img_url);
+				   query.setParameter("notes_id", notes_id);
+				   int result = query.executeUpdate();
+				   
+			}else if(checkImgSrc == 2) {
+				//sample_image_url
+				
+				System.out.println("patient image url  "+checkImgSrc);
+				String hql1 = "Select max(p.sample_id) FROM patient p ";
+				int sample_id = (int) entityManager.createQuery(hql1).getSingleResult();
+				
+				
+					   String hql = "UPDATE patient set sample_image_url = :sample_image_url "  + 
+					               "WHERE sample_id = :sample_id";
+					   Query query = entityManager.createQuery(hql);
+					   query.setParameter("sample_image_url", img_url);
+					   query.setParameter("sample_id", sample_id);
+					   int result = query.executeUpdate();
+				
+				
+			}else if(checkImgSrc == 3) {
+				
+				System.out.println("Au patient image url  "+checkImgSrc);
+				String hql1 = "Select max(p.au_patient_id) FROM au_patient p ";
+				
+				int sample_id = (int) entityManager.createQuery(hql1).getSingleResult();
+				
+					   String hql = "UPDATE au_patient set au_sample_image_url = :au_sample_image_url "  + 
+					                "WHERE au_patient_id = :au_patient_id";
+					   Query query = entityManager.createQuery(hql);
+					   query.setParameter("au_sample_image_url", img_url);
+					   query.setParameter("au_patient_id", sample_id);
+					   int result = query.executeUpdate();
+			} 
+		
+			return 0;
+		}
+
+		//getImage
+		@SuppressWarnings("unchecked")
+		@Override
+		public String getImage(String notes_uuid) {
+			
+			String hql = " Select images FROM notes as nt WHERE nt.notes_uuid = ?1";
+			String result =  (String)entityManager.createQuery(hql).setParameter(1, notes_uuid).getSingleResult();
+			return result;
+		}
+		
 	
 	
 	
