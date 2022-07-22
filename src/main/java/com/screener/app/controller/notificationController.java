@@ -45,7 +45,11 @@ import org.springframework.web.bind.annotation.RestController;
 		public String addNotification(@Valid @RequestBody notes notificationObj, UriComponentsBuilder builder) {
 			
                 int flag = ns.addNotification(notificationObj);
+                if(flag == 1) {
                 return "true";
+                }else {
+                	return "false";
+                }
 	                
 		}
 		

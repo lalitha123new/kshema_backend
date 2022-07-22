@@ -22,9 +22,24 @@ public class notificationDao implements inotificationDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public int addNotification(notes notification) {
-		// TODO Auto-generated method stub
-		entityManager.persist(notification);
-		return 1;
+			try {
+			
+			
+			String hql = "select count(notes_id) FROM notes as n WHERE n.notes_uuid = ?1";
+			Long count = (Long) entityManager.createQuery(hql).setParameter(1, notification.getNotes_uuid()).getSingleResult();
+			
+			if(count == 0) {
+			// TODO Auto-generated method stub
+			entityManager.persist(notification);
+			return 1;
+			}else {
+				System.out.println("Notes Data Exists");
+				return 1;
+			}
+		}catch(Exception e) {
+			System.out.println("patient data not saved  "+e);
+			return 0;
+		}
 	}
 	
 	//

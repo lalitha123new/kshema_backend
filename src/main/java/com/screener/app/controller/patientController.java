@@ -221,6 +221,25 @@ import org.springframework.web.bind.annotation.RestController;
 	                }
 			  return "true";
 		}
+		
+		//get all patients for super-supervisor
+		@GetMapping("/getAllPatientsListActive")
+		public ResponseEntity<List<patientObj>> allpatientsListActive() {
+			
+			List<patientObj> patientList = ps.getAllpatientsListActive();
+			return new ResponseEntity<List<patientObj>>(patientList, HttpStatus.OK);
+		}
+		
+		//@Secured
+				@GetMapping("/getAllPatientsList")
+				public ResponseEntity<List<patient_total_obj>> getAllPatientList() {
+					
+					List<patient_total_obj> patientList = ps.getAllPatientList();
+					return new ResponseEntity<List<patient_total_obj>>(patientList, HttpStatus.OK);
+				}
+				
+				
+				
 	
 //****************************************************Supervisor Rest Calls************************************************************//
 		//get all patients with latest Clinical consultation follow-up date 
@@ -369,6 +388,24 @@ import org.springframework.web.bind.annotation.RestController;
 					return new ResponseEntity<List<udid_info>>(udid_info, HttpStatus.OK);
 					
 				}
+				
+				@GetMapping("/getCounts/{group_data_id}/{supervisor_id}")
+				public List<counts> getCounts(@PathVariable(value ="group_data_id") String group_data_id,@PathVariable(value ="supervisor_id") int supervisor_id) {
+					System.out.println("check1");
+					List<counts> objList =  ps.getCounts(group_data_id,supervisor_id);
+					System.out.println("check2");
+					return objList;
+					
+				}
+				
+				@GetMapping("/getAllDataCounts")
+				public List<counts> getAllDataCounts() {
+					System.out.println("check1");
+					List<counts> objList =  ps.getAllDataCounts();
+					System.out.println("check2");
+					return objList;
+					
+				}
 		
 		
 		
@@ -491,6 +528,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 				return lab_test_details1;
 				}
+				
+				//get all patients with latest Clinical consultation follow-up date 
 				
 				
 				

@@ -52,8 +52,8 @@ public class patientService implements IpatientService {
 		//pat.setTransaction_id(ext_id);
          
 		
-		patientDao.addpatient(pat);
-        return true;
+		return patientDao.addpatient(pat);
+        //return true;
 	}
 	
 	@Override
@@ -187,6 +187,9 @@ public class patientService implements IpatientService {
 		return  patientDao.getPatientsData(group_data_id);
 	}
 	
+	
+	
+	
 
 	@Override
 	public boolean updatepatient(patientObj pat) {
@@ -299,6 +302,24 @@ public class patientService implements IpatientService {
 		
 	}
 	
+	@Override
+	public List<counts> getCounts(String group_data_id,int supervisor_id) {
+		// TODO Auto-generated method stub
+		return patientDao.getCounts(group_data_id,supervisor_id);
+		
+	}
+	
+	//getCounts
+	
+	@Override
+	public List<counts> getAllDataCounts() {
+		// TODO Auto-generated method stub
+		return patientDao.getAllDataCounts();
+		
+	}
+	
+	//getCounts
+	
 
 	@Override
 	public List<patient_total_obj> getConsultationHistory(String patient_uuid) {
@@ -323,7 +344,21 @@ public class patientService implements IpatientService {
 		
 		return pso;
 	}
+	
+	@Override
+	public List<patientObj> getAllpatientsListActive() {
 		
+		return  patientDao.getAllpatientsListActive();
+	}
+	@Override
+	public List<patient_total_obj> getAllPatientList() {
+		
+		return  patientDao.getAllPatientList();
+	}
+	
+	
+	
+	
 } 
 
 

@@ -48,20 +48,24 @@ public class patientDao implements IpatientDao {
 	
 	//kashema patient table
 	@Override
-	public void addpatient(patientObj pat) {
+	public boolean addpatient(patientObj pat) {
 		try {
-			//System.out.println("hell its kshema_id---"+pat.toString());
+			
+			
+			String hql = "select count(patient_id) FROM patientObj as p WHERE p.patient_uuid = ?1";
+			Long count = (Long) entityManager.createQuery(hql).setParameter(1, pat.getPatient_uuid()).getSingleResult();
+			
+			if(count == 0) {
 			
 			//String kshema_id = kshemaidDao.getKshemaid(0, 0, 0);
 			//System.out.println("hell its kshema_id---"+kshema_id);
-			
-		//pat.setStatus("Pending");
-		//new code
-		pat.setStatus("active");
-		//end
-		Date date = new Date();
-		Timestamp timestamp = new Timestamp(date.getTime());
-		//kshema_id
+			//pat.setStatus("Pending");
+			//new code
+			pat.setStatus("active");
+			//end
+			Date date = new Date();
+			Timestamp timestamp = new Timestamp(date.getTime());
+			//kshema_id
 		
 		//pat.setKshema_id(kshema_id);
 		
@@ -69,8 +73,14 @@ public class patientDao implements IpatientDao {
 		pat.setCreatedAt(timestamp.toString());
 		//System.out.println(kshema_id);
 		entityManager.persist(pat);
+		return true;
+			}else {
+				System.out.println("Patient Data Exists");
+				return true;
+			}
 		}catch(Exception e) {
 			System.out.println("patient data not saved  "+e);
+			return false;
 		}
 	}
 	
@@ -79,11 +89,20 @@ public class patientDao implements IpatientDao {
 		//@Override
 		public void addClinicalVisits(clinical_visits clinicalvisits) {
 			try {
-			Date date = new Date();
-			Timestamp timestamp = new Timestamp(date.getTime());
+				
+				String hql = "select count(clinical_visits_id) FROM clinical_visits as c WHERE c.clinical_visits_uuid = ?1";
+				Long count = (Long) entityManager.createQuery(hql).setParameter(1, clinicalvisits.getClinical_visits_uuid()).getSingleResult();
+				
+				if(count == 0) {
+				Date date = new Date();
+				Timestamp timestamp = new Timestamp(date.getTime());
+				
+				clinicalvisits.setCreatedAt(timestamp.toString());
+				entityManager.persist(clinicalvisits);
+			}else {
+				System.out.println("Clinical Data Exists");
 			
-			clinicalvisits.setCreatedAt(timestamp.toString());
-			entityManager.persist(clinicalvisits);
+			}
 			}catch(Exception e) {
 				System.out.println(" clinical visit data not saved");
 			}
@@ -96,11 +115,18 @@ public class patientDao implements IpatientDao {
 				//@Override
 				public void addTasks(tasks tasks) {
 					try {
+						String hql = "select count(tasks_id) FROM tasks as t WHERE t.tasks_uuid = ?1";
+						Long count = (Long) entityManager.createQuery(hql).setParameter(1, tasks.getTasks_uuid()).getSingleResult();
+						
+						if(count == 0) {
 					Date date = new Date();
 					Timestamp timestamp = new Timestamp(date.getTime());
 					
 					tasks.setCreatedAt(timestamp.toString());
 					entityManager.persist(tasks);
+						}else {
+							System.out.println("Tasks Data Exists");
+						}
 				}catch(Exception e) {
 					System.out.println("task data not saved ");
 				}
@@ -109,12 +135,23 @@ public class patientDao implements IpatientDao {
 				//kashema udid_info table
 				//@Override
 				public void addudid_info(udid_info udid_info) {
+					try {
+						String hql = "select count(udid_info_id) FROM udid_info as U WHERE U.udid_uuid = ?1";
+						Long count = (Long) entityManager.createQuery(hql).setParameter(1, udid_info.getUdid_uuid()).getSingleResult();
+						
+						if(count == 0) {
 					
 					Date date = new Date();
 					Timestamp timestamp = new Timestamp(date.getTime());
 					
 					udid_info.setCreatedAt(timestamp.toString());
 					entityManager.persist(udid_info);
+						}else {
+							System.out.println("UDID Data Exists");
+						}
+						}catch(Exception e) {
+							System.out.println("task data not saved ");
+						}
 				}
 
 				//kashema udid_info table
@@ -496,15 +533,41 @@ public class patientDao implements IpatientDao {
 		@Override
 		public boolean addclinicalVisite(clinical_visits cv) {
 			// TODO Auto-generated method stub
+			try {
 			System.out.println("cv data "+cv.getClinical_visits_uuid());
+			String hql = "select count(clinical_visits_id) FROM clinical_visits as c WHERE c.clinical_visits_uuid = ?1";
+			Long count = (Long) entityManager.createQuery(hql).setParameter(1, cv.getClinical_visits_uuid()).getSingleResult();
+			
+			if(count == 0) {
 			entityManager.persist(cv);
 			return true;
+			}else {
+				System.out.println("Clinical Data Exists");
+				return true;
+			}
+			}catch(Exception e) {
+				System.out.println("visit data not saved  "+e);
+				return false;
+			}
 		}
 		@Override
 		public boolean addtasks(tasks tasks) {
 			// TODO Auto-generated method stub
+			try {
+			String hql = "select count(tasks_id) FROM tasks as t WHERE t.tasks_uuid = ?1";
+			Long count = (Long) entityManager.createQuery(hql).setParameter(1, tasks.getTasks_uuid()).getSingleResult();
+			
+			if(count == 0) {
 			entityManager.persist(tasks);
 			return true;
+			}else {
+				System.out.println("Tasks Data Exists");
+				return true;	
+			}
+			}catch(Exception e) {
+				System.out.println("tasks data not saved  "+e);
+				return false;
+			}
 		}
 		
 		
@@ -666,7 +729,7 @@ public class patientDao implements IpatientDao {
 		@Override
 		public boolean updatetasks(tasks tasks) {
 			
-			 String hql="UPDATE tasks SET task_due_date=:task_due_date,patient_uuid=:patient_uuid,update_date=:update_date,status=:status,prev_record_uuuid=:prev_record_uuuid WHERE tasks_uuid=:tasks_uuid";
+			 String hql="UPDATE tasks SET task_due_date=:task_due_date,patient_uuid=:patient_uuid,update_date=:update_date,status=:status,prev_record_uuuid=:prev_record_uuuid,task_details=:task_details WHERE tasks_uuid=:tasks_uuid";
 			 Query query = entityManager.createQuery(hql);
 			 query.setParameter("task_due_date", tasks.getTask_due_date());
 			 query.setParameter("patient_uuid", tasks.getPatient_uuid());
@@ -676,17 +739,18 @@ public class patientDao implements IpatientDao {
 			 System.out.println("status---- "+tasks.getStatus());
 			 query.setParameter("status", tasks.getStatus());
 			 query.setParameter("prev_record_uuuid", tasks.getPrev_record_uuuid());
+			 query.setParameter("task_details", tasks.getTask_details());
 			 
 			 //prev_record_uuuid
 			 //query.setParameter("patient_uuid", tasks.getTasks_uuid());
 			 int result = query.executeUpdate();
-			     
+			 Boolean response = false;
 			if(result==1)
-				return true;
-			if(result==0)
-				return false;
+				response =  true;
+			else if(result==0)
+				response =  true;
 			
-			return false;	
+			return response;	
 		}
 		
 		
@@ -713,12 +777,24 @@ public class patientDao implements IpatientDao {
 		
 		@Override
 		public boolean addudid(udid_info udid_info) {
-			
+			try {
+				String hql = "select count(udid_info_id) FROM udid_info as U WHERE U.udid_uuid = ?1";
+				Long count = (Long) entityManager.createQuery(hql).setParameter(1, udid_info.getUdid_uuid()).getSingleResult();
+				
+				if(count == 0) {
 			Date date = new Date();
 			Timestamp timestamp = new Timestamp(date.getTime());
 			udid_info.setCreatedAt(timestamp.toString());
 			entityManager.persist(udid_info);
 			return true;
+				}else {
+					System.out.println("UDID Data Exists");
+					return true;
+				}
+				}catch(Exception e) {
+					System.out.println("udid data not saved ");
+					return false;
+				}
 		}
 		
 	//@@@@@@@@@@@@@@@@@@@@ Supervisor methods @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@//	
@@ -1219,7 +1295,299 @@ public class patientDao implements IpatientDao {
 			
 		}
 		
+		//get all active patients only for super supervisor
+				@SuppressWarnings("unchecked")
+				@Override
+				public List<patientObj> getAllpatientsListActive() {
+					
+					//String hql = "FROM patientObj p where p.group_data_id=?1";
+					//new code
+					String hql = "FROM patientObj p where status = 'active'";
+					//end
+					return (List<patientObj>) entityManager.createQuery(hql).getResultList();
+					
+
+				}
+				//end
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public List<patient_total_obj> getAllPatientList() {
+					
+					//String hql = "FROM patientObj p where p.group_data_id=?1";
+					List<patient_total_obj> returntotalObj=  new ArrayList<patient_total_obj>() ;
+					//new code
+					//String hql3 = "FROM patientObj p where p.group_data_id=?1";
+					String hql3 = "FROM patientObj p";
+					//end
+					//List<patientObj> patientObj1 =(List<patientObj>) entityManager.createQuery(hql3).setParameter(1,sw_id).getResultList();
+					List<patientObj> patientObj1 =(List<patientObj>) entityManager.createQuery(hql3).getResultList();
+					
+					for( patientObj patientObj:patientObj1) {
+						
+						//String hql = "FROM clinical_visits WHERE followup_date=:followup_date and patient_uuid=:patient_uuid order by clinical_visits_id DESC";
+						
+							//new code
+						String hql = "FROM clinical_visits  WHERE patient_uuid=:patient_uuid and clinical_visits_id IN ( SELECT MAX(clinical_visits_id) FROM clinical_visits GROUP BY patient_uuid )";
+						//end
+					
+						List<clinical_visits> clinical_visits =(List<clinical_visits>) entityManager.createQuery(hql).setParameter("patient_uuid",patientObj.getPatient_uuid()).getResultList();
+						for( clinical_visits cv:clinical_visits) {
+							String hql1 = "FROM patientObj as p WHERE patient_uuid=:patient_uuid";
+							List<patientObj> temp = entityManager.createQuery(hql1).setParameter("patient_uuid",cv.getPatient_uuid()).getResultList();
+							patient_total_obj pat_tol=new patient_total_obj(cv,temp.get(0));
+							returntotalObj.add(pat_tol);
+						}
+						
+						}
+					return returntotalObj;
+					
+
+				}
+				//end
 		
 		
+				@Override
+				public List<counts> getCounts(String group_data_id,int supervisor_id) {
+				List<counts> countObj = new ArrayList<counts>();
+				counts count = new counts();
+				 Calendar cal = Calendar.getInstance();
+				 cal.set(Calendar.HOUR_OF_DAY, 0);
+				 cal.set(Calendar.MINUTE, 0);
+				 cal.set(Calendar.SECOND, 0);
+				 Date currentDate = cal.getTime();
+				 String groupArray = group_data_id;
+				 String[] group_array = groupArray.split("@@");
+//				
+				String hql1 =null;
+				String hql2 =null;
+				String hql3 =null;
+				String hql4 =null;
+				String hql5 =null;
+				String hql6 =null;
+				String hql7 =null;
+				String hql8 =null;
+				String hql9 =null;
+				String hql10 =  null;
+				String hql11 = null;
+				String hql12 =  null;
+				String hql13 = null;
+				Long patient_count = (long) 0;
+				Long psw_count = (long) 0;
+				Long today_visit_count = (long) 0;
+				Long today_task_count = (long) 0;
+				Long overdue_vist_count = (long) 0;
+				Long overdue_task_count = (long) 0;
+				Long notes_count = (long) 0;
+				Long today_completed_task = (long) 0;
+				
+				for(int i=0;i<group_array.length;i++) {
+					
+//				
+				hql2 = "select count(social_worker_id) FROM group_data as p WHERE p.supervisor_id = ?1";
+				psw_count = (Long) entityManager.createQuery(hql2).setParameter(1,supervisor_id).getSingleResult();
+				
+				hql3 = "FROM patientObj as p WHERE p.group_data_id = ?1 GROUP BY patient_uuid";
+				List<patientObj> patientObj1 =(List<patientObj>) entityManager.createQuery(hql3).setParameter(1,Integer.parseInt(group_array[i])).getResultList();
+				
+				
+				
+				for( patientObj patientObj:patientObj1) {
+					hql1 = "select count(clinical_visits_id) FROM clinical_visits WHERE patient_uuid=:patient_uuid and clinical_visits_id IN ( SELECT MAX(clinical_visits_id) FROM clinical_visits GROUP BY patient_uuid )";
+					patient_count  = Long.sum(patient_count,((Long) entityManager.createQuery(hql1).setParameter("patient_uuid",patientObj.getPatient_uuid()).getSingleResult()));
+					System.out.println("Count is "+patient_count);
+					
+					
+				hql4 = "select count(clinical_visits_uuid) FROM clinical_visits WHERE followup_date=:followup_date and patient_uuid=:patient_uuid and clinical_visits_id IN ( SELECT MAX(clinical_visits_id) FROM clinical_visits GROUP BY patient_uuid )";
+				today_visit_count= Long.sum(today_visit_count,(Long) entityManager.createQuery(hql4).setParameter("followup_date",currentDate).setParameter("patient_uuid",patientObj.getPatient_uuid()).getSingleResult());
+				
+				
+				
+				hql5 = "select count(clinical_visits_uuid) FROM clinical_visits WHERE followup_date<:followup_date and patient_uuid=:patient_uuid and clinical_visits_id IN ( SELECT MAX(clinical_visits_id) FROM clinical_visits GROUP BY patient_uuid )";
+				overdue_vist_count= Long.sum(overdue_vist_count,(Long) entityManager.createQuery(hql5).setParameter("followup_date",currentDate).setParameter("patient_uuid",patientObj.getPatient_uuid()).getSingleResult());
+				
+				}
+				
+				hql6 = "FROM tasks WHERE task_due_date =:task_due_date  order by tasks_id DESC";
+				
+				List<tasks> tasks =(List<tasks>) entityManager.createQuery(hql6).setParameter("task_due_date",currentDate).getResultList();
+				for( tasks tk1:tasks) {
+					
+					
+					hql7 = "select count(patient_id) FROM patientObj as p WHERE p.patient_uuid=:patient_uuid and p.group_data_id = ?1";
+				
+					today_task_count =  Long.sum(today_task_count,(Long) entityManager.createQuery(hql7).setParameter("patient_uuid",tk1.getPatient_uuid()).setParameter(1,Integer.parseInt(group_array[i])).getSingleResult());
+					
+				}
+				
+				hql8 = "FROM tasks WHERE task_due_date <:task_due_date and (status = 'pending' OR  status = 'In Progress') order by tasks_id DESC";
+				
+				List<tasks> tasks2 =(List<tasks>) entityManager.createQuery(hql8).setParameter("task_due_date",currentDate).getResultList();
+				for( tasks tk2:tasks2) {
+					
+					
+					hql9 = "select count(patient_id) FROM patientObj as p WHERE p.patient_uuid=:patient_uuid and p.group_data_id = ?1";
+				
+					overdue_task_count =  Long.sum(overdue_task_count,(Long) entityManager.createQuery(hql9).setParameter("patient_uuid",tk2.getPatient_uuid()).setParameter(1,Integer.parseInt(group_array[i])).getSingleResult());
+					
+				}
+				
+				 hql10 = "FROM tasks WHERE task_due_date =:task_due_date and (status = 'Completed') order by tasks_id DESC";
+	      		    //end
+	      		    
+	      			System.out.println("date  "+hql10);
+	      			List<tasks> tasks1 =(List<tasks>) entityManager.createQuery(hql10).setParameter("task_due_date",currentDate).getResultList();
+	      			for( tasks tk2:tasks1) {
+	      				
+	      				
+	      				hql11 = "select count(patient_id) FROM patientObj as p WHERE p.patient_uuid=:patient_uuid and p.group_data_id=?1";
+	      				
+	      				today_completed_task= Long.sum(today_completed_task,(Long) entityManager.createQuery(hql11).setParameter("patient_uuid",tk2.getPatient_uuid()).setParameter(1,Integer.parseInt(group_array[i])).getSingleResult());
+	      				System.out.println("total Count is "+today_completed_task);
+	      			}
+				}
+				hql12 = " FROM supervisor as p WHERE p.supervisor_id= ?1";
+				
+				List<supervisor> supervisor =  (List<supervisor>) entityManager.createQuery(hql12).setParameter(1,supervisor_id).getResultList();
+				for( supervisor sp:supervisor) {
+					System.out.println(sp.getUsers_id());
+				hql13 = " select count(notes_id) FROM notes as p WHERE p.recipient_user_id=:users_id and p.read_flag =:read_flag ";
+				
+				notes_count = Long.sum(notes_count,(Long)entityManager.createQuery(hql13).setParameter("users_id",sp.getUsers_id()).setParameter("read_flag", 1).getSingleResult());
+				
+				}
+				System.out.println("total Count is "+today_completed_task);
+					count.setPatient_count(patient_count);
+					count.setPsw_count(psw_count);
+					System.out.println("Count is "+today_task_count);
+					count.setToday_visit_count(today_visit_count);
+					count.setToday_task_count(today_task_count);
+					count.setOverdue_vist_count(overdue_vist_count);
+					count.setOverdue_task_count(overdue_task_count);
+					count.setNotes_count(notes_count);
+					count.setToday_completed_task(today_completed_task);
+					 countObj.add(count);
+					 return countObj;
+					
+				}
+				
+				
+				
+				@Override
+				public List<counts> getAllDataCounts() {
+				List<counts> countObj = new ArrayList<counts>();
+				counts count = new counts();
+				 Calendar cal = Calendar.getInstance();
+				 cal.set(Calendar.HOUR_OF_DAY, 0);
+				 cal.set(Calendar.MINUTE, 0);
+				 cal.set(Calendar.SECOND, 0);
+				 Date currentDate = cal.getTime();
+				
+//				
+				String hql1 =null;
+				String hql2 =null;
+				String hql3 =null;
+				String hql4 =null;
+				String hql5 =null;
+				String hql6 =null;
+				String hql7 =null;
+				String hql8 =null;
+				String hql9 =null;
+				String hql10 =  null;
+				String hql11 = null;
+				String hql12 =  null;
+				String hql13 = null;
+				Long patient_count = (long) 0;
+				Long psw_count = (long) 0;
+				Long today_visit_count = (long) 0;
+				Long today_task_count = (long) 0;
+				Long overdue_vist_count = (long) 0;
+				Long overdue_task_count = (long) 0;
+				Long notes_count = (long) 0;
+				Long today_completed_task = (long) 0;
+				
+			
+					
+//				
+				hql2 = "select count(social_worker_id) FROM group_data ";
+				psw_count = (Long) entityManager.createQuery(hql2).getSingleResult();
+				
+				hql3 = "FROM patientObj as p GROUP BY patient_uuid";
+				List<patientObj> patientObj1 =(List<patientObj>) entityManager.createQuery(hql3).getResultList();
+				
+				
+				
+				for( patientObj patientObj:patientObj1) {
+					hql1 = "select count(clinical_visits_id) FROM clinical_visits WHERE patient_uuid=:patient_uuid and clinical_visits_id IN ( SELECT MAX(clinical_visits_id) FROM clinical_visits GROUP BY patient_uuid )";
+					patient_count  = Long.sum(patient_count,((Long) entityManager.createQuery(hql1).setParameter("patient_uuid",patientObj.getPatient_uuid()).getSingleResult()));
+					System.out.println("Count is "+patient_count);
+					
+					
+				hql4 = "select count(clinical_visits_uuid) FROM clinical_visits WHERE followup_date=:followup_date and patient_uuid=:patient_uuid and clinical_visits_id IN ( SELECT MAX(clinical_visits_id) FROM clinical_visits GROUP BY patient_uuid )";
+				today_visit_count= Long.sum(today_visit_count,(Long) entityManager.createQuery(hql4).setParameter("followup_date",currentDate).setParameter("patient_uuid",patientObj.getPatient_uuid()).getSingleResult());
+				
+				
+				
+				hql5 = "select count(clinical_visits_uuid) FROM clinical_visits WHERE followup_date<:followup_date and patient_uuid=:patient_uuid and clinical_visits_id IN ( SELECT MAX(clinical_visits_id) FROM clinical_visits GROUP BY patient_uuid )";
+				overdue_vist_count= Long.sum(overdue_vist_count,(Long) entityManager.createQuery(hql5).setParameter("followup_date",currentDate).setParameter("patient_uuid",patientObj.getPatient_uuid()).getSingleResult());
+				
+				}
+				
+				hql6 = "FROM tasks WHERE task_due_date =:task_due_date  order by tasks_id DESC";
+				
+				List<tasks> tasks =(List<tasks>) entityManager.createQuery(hql6).setParameter("task_due_date",currentDate).getResultList();
+				for( tasks tk1:tasks) {
+					
+					
+					hql7 = "select count(patient_id) FROM patientObj as p WHERE p.patient_uuid=:patient_uuid";
+				
+					today_task_count =  Long.sum(today_task_count,(Long) entityManager.createQuery(hql7).setParameter("patient_uuid",tk1.getPatient_uuid()).getSingleResult());
+					
+				}
+				
+				hql8 = "FROM tasks WHERE task_due_date <:task_due_date and (status = 'pending' OR  status = 'In Progress') order by tasks_id DESC";
+				
+				List<tasks> tasks2 =(List<tasks>) entityManager.createQuery(hql8).setParameter("task_due_date",currentDate).getResultList();
+				for( tasks tk2:tasks2) {
+					
+					
+					hql9 = "select count(patient_id) FROM patientObj as p WHERE p.patient_uuid=:patient_uuid ";
+				
+					overdue_task_count =  Long.sum(overdue_task_count,(Long) entityManager.createQuery(hql9).setParameter("patient_uuid",tk2.getPatient_uuid()).getSingleResult());
+					
+				}
+				
+				 hql10 = "FROM tasks WHERE task_due_date =:task_due_date and (status = 'Completed') order by tasks_id DESC";
+	      		    //end
+	      		    
+	      			System.out.println("date  "+hql10);
+	      			List<tasks> tasks1 =(List<tasks>) entityManager.createQuery(hql10).setParameter("task_due_date",currentDate).getResultList();
+	      			for( tasks tk2:tasks1) {
+	      				
+	      				
+	      				hql11 = "select count(patient_id) FROM patientObj as p WHERE p.patient_uuid=:patient_uuid";
+	      				
+	      				today_completed_task= Long.sum(today_completed_task,(Long) entityManager.createQuery(hql11).setParameter("patient_uuid",tk2.getPatient_uuid()).getSingleResult());
+	      				System.out.println("total Count is "+today_completed_task);
+	      			}
+				
+			
+				System.out.println("total Count is "+today_completed_task);
+					count.setPatient_count(patient_count);
+					count.setPsw_count(psw_count);
+					System.out.println("Count is "+today_task_count);
+					count.setToday_visit_count(today_visit_count);
+					count.setToday_task_count(today_task_count);
+					count.setOverdue_vist_count(overdue_vist_count);
+					count.setOverdue_task_count(overdue_task_count);
+					count.setNotes_count(notes_count);
+					count.setToday_completed_task(today_completed_task);
+					 countObj.add(count);
+					 return countObj;
+					
+				}
+				
+			
+				
 
 } 

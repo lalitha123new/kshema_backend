@@ -8,7 +8,7 @@ public interface IpatientDao {
 	List<patient> getAllpatients(String username);
 	public boolean addclinicalVisite(clinical_visits cv);
     //login getloginByName(String name);
-    void addpatient(patientObj pat);
+	public boolean addpatient(patientObj pat);
     List<patient> getSort(String sort,String username);
     List<patient> getFilter(String filter,String username,String value);
 	
@@ -49,6 +49,7 @@ public interface IpatientDao {
 	List<task_master> getTaskMasterList();
 	boolean addudid(udid_info udid_info);
 	
+	
 	//@@@@@@@@@@supervisor methods@@@@@@@@@@@@@@@@@@@@@@@@@@
 	List<patient_total_obj> getPatientsList(int api_type_id,int group_id);
 	void getTodayVisits();
@@ -67,5 +68,10 @@ public interface IpatientDao {
 	psw_supervisor_obj getmetaDataLogin(int users_id,String role);
 	supervisor_obj getmetaDataLogin1(int users_id, String role);
 	List<udid_info> getPatientUdid(String patient_uuid);
+	List<counts> getCounts(String group_data_id,int supervisor_id);
+	List<patientObj> getAllpatientsListActive();
+	List<patient_total_obj> getAllPatientList();
+	
+	List<counts> getAllDataCounts();
 	
 } 

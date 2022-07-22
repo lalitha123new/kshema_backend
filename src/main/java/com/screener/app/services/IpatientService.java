@@ -69,6 +69,7 @@ public interface IpatientService {
 		List<task_master> getTaskMasterList();
 
 		boolean addudid(udid_info udid_info);
+		
 
 		//@@@ Supervisor @@@//
 		List<patient_total_obj> getPatientsList(int api_type_id,int group_id);
@@ -90,6 +91,12 @@ public interface IpatientService {
 		List<task_master> getCompletedTasks();
 		List<task_master> getallTasks(String patient_uuid);
 		List<udid_info> getPatientUdid(String patient_uuid);
+		List<counts> getCounts(String group_data_id,int supervisor_id);
+		List<counts> getAllDataCounts();
+		List<patientObj> getAllpatientsListActive();
+		List<patient_total_obj> getAllPatientList();
+		
+		
 		
 		
 
